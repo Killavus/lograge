@@ -8,7 +8,7 @@ module Lograge
       message = "#{payload[:remote_ip]} #{payload[:method]} #{payload[:host]}:#{payload[:port]}#{payload[:path].split('?').first} format=#{extract_format(payload)} action=#{payload[:params]['controller']}##{payload[:params]['action']}"
       prms = payload[:params].clone
       prms.keys.each { |key| prms.delete(key) if ['controller', 'action'].include?(key) }
-      message << "params=#{prms.display}"
+      message << " params={ #{prms.map { |k, v| "#{k} => #{v}" }.join(', ')} }"
       message << extract_status(payload)
       message << runtimes(event)
       message << location(event)
