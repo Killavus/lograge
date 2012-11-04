@@ -10,7 +10,7 @@ module Lograge
       message << runtimes(event)
       message << location(event)
       message << custom_options(event)
-      message << " params =" + user_params(payload)
+      message << " params=" + user_params(payload)
       logger.warn(message)
     end
 
