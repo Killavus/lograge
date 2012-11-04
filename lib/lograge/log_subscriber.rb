@@ -6,7 +6,7 @@ module Lograge
     def process_action(event)
       payload = event.payload
       message = "#{payload[:remote_ip]} #{payload[:method]} #{payload[:host]}:#{payload[:port]}#{payload[:path].split('?').first} format=#{extract_format(payload)} action=#{payload[:params]['controller']}##{payload[:params]['action']}"
-      params = payload.clone
+      params = payload[:params].clone
       params.keys.each { |key| params.delete(key) if ['controller', 'action'].include?(key) }
       message << "params=#{params.display}"
       message << extract_status(payload)
