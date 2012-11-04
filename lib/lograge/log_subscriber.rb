@@ -6,14 +6,11 @@ module Lograge
     def process_action(event)
       payload = event.payload
       message = "#{payload[:remote_ip]} #{payload[:method]} #{payload[:host]}:#{payload[:port]}#{payload[:path].split('?').first} format=#{extract_format(payload)} action=#{payload[:params]['controller']}##{payload[:params]['action']}"
-      prms = payload[:params].clone
-      prms.keys.each { |key| prms.delete(key) if ['controller', 'action'].include?(key) }
-      message << " params={ #{prms.map { |k, v| "#{k} => #{v}" }.join(', ')} }"
       message << extract_status(payload)
       message << runtimes(event)
       message << location(event)
       message << custom_options(event)
-      message << user_params(payload)
+      message << " params =" + user_params(payload)
       logger.warn(message)
     end
 
@@ -51,7 +48,7 @@ module Lograge
     end
 
     def user_params(payload)
-      ' ' + payload[:params].reject{|k, v| ['controller','action'].include?(k)}.inspect
+       '' + payload[:params].reject{|k, v| ['controller','action'].include?(k)}.inspect
     end
 
     def runtimes(event)
