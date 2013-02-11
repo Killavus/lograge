@@ -33,12 +33,12 @@ module Lograge
         data[key] = "'#{data[key]}'" if key == :error
         # Ensure that we always have exactly two decimals
         data[key] = "%.2f" % data[key] if data[key].is_a? Float
+        # Adding prettyprinted params
+        data[key] = PP.pp(data[key], '').chomp if key == :params
 
         message
       end
 
-      event << "params=#{PP.pp(data[:params], '').chomp()}"
- 
       event.join(" ")
     end
 
