@@ -37,7 +37,7 @@ module Lograge
         message
       end
 
-      event << "params=" << PP.pp(data[:params], '').chomp()
+      event << "params=#{PP.pp(data[:params], '').chomp()}"
  
       event.join(" ")
     end
